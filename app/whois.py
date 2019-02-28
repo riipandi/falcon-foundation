@@ -12,9 +12,9 @@ class WhoisResource:
         if check:
             content = check
         else:
-            r.set(domain, w.text)
+            r.set(domain, w.text + '!loaded from cache!')
             r.expire(domain, 3600)
-            content = w.text + 'Loaded realtime'
+            content = w.text
 
         resp.body = content
         resp.status = falcon.HTTP_200

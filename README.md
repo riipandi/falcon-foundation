@@ -12,6 +12,7 @@ Preparing workspace:
 
 ```
 cd /to/your/working/directory
+fix-permission /to/your/working/directory www-data:
 virtualenv -qp python3 .venv --download
 .venv/bin/pip install -r requirements.txt
 ```
@@ -20,6 +21,15 @@ Run the application:
 
 ```
 .venv/bin/gunicorn run:api -c config/gunicorn.py
+```
+
+Supervisor daemon:
+
+```
+supervisorctl reread
+systemctl restart supervisor
+systemctl status supervisor
+netstat -pltn
 ```
 
 ## License
