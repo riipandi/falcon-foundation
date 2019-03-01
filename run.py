@@ -8,6 +8,14 @@ from app import *
 BASE_DIR = Path('.').resolve()
 ENV_PATH = BASE_DIR.joinpath('.env')
 
+# Static resource
+class StaticResource(object):
+    def on_get(self, req, resp):
+        resp.status = falcon.HTTP_200
+        resp.content_type = 'text/html'
+        page = str(Path('.').resolve()) + '/resources/index.html'
+        with open(page, 'r') as f:
+            resp.body = f.read()
 
 # Handle 404
 def handle_404(req, resp):
@@ -20,6 +28,7 @@ def handle_404(req, resp):
 
 api = falcon.API()
 
-api.add_route('/', welcome.WelcomeResource())
+api.add_route('/', StaticResource())
+# api.add_route('/', welcome.WelcomeResource())
 api.add_route('/whois/{domain}', whois.WhoisResource())
 api.add_sink(handle_404, '')

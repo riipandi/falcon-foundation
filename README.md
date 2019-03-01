@@ -12,6 +12,20 @@ Preparing workspace:
 
 ```
 virtualenv -qp python3 venv --download
+```
+
+Or, if you want to use PyPy:
+
+```
+add-apt-repository -y ppa:pypy/ppa
+apt update && apt -y install pypy pypy3
+
+virtualenv -p pypy3 venv --download
+```
+
+Installing dependencies:
+
+```
 venv/bin/pip install -r requirements.txt
 ```
 
