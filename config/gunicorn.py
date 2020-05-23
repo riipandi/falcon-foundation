@@ -13,7 +13,11 @@ load_dotenv(dotenv_path=ENV_PATH)
 bind = os.getenv('APP_HOST') + ":" + os.getenv('APP_PORT')
 
 backlog = 2048
-workers = multiprocessing.cpu_count() * 2 + 1
+
+# Set dynamic or static workers based on CPU
+# workers = multiprocessing.cpu_count() * 2 + 1
+workers = 1
+
 worker_class = 'sync'
 worker_connections = 1000
 timeout = 30
