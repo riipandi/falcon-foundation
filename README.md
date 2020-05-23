@@ -32,7 +32,7 @@ venv/bin/pip install -r requirements.txt
 Run the application:
 
 ```
-venv/bin/gunicorn run:api -c config/gunicorn.py
+venv/bin/gunicorn run:app -c config/gunicorn.py
 ```
 
 Supervisor daemon:

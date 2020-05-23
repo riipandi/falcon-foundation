@@ -1,34 +1,30 @@
-#!/usr/bin/env python3
-
-import os
-from falcon import falcon
+import os, falcon
+from dotenv import load_dotenv
 from pathlib import Path
-from app import *
+from falcon_marshmallow import Marshmallow
 
-BASE_DIR = Path('.').resolve()
-ENV_PATH = BASE_DIR.joinpath('.env')
+# Import the resources
+from resources import *
 
-# Static resource
-class StaticResource(object):
-    def on_get(self, req, resp):
-        resp.status = falcon.HTTP_200
-        resp.content_type = 'text/html'
-        page = str(Path('.').resolve()) + '/resources/index.html'
-        with open(page, 'r') as f:
-            resp.body = f.read()
+# Load dotenv
+load_dotenv(dotenv_path = Path('.') / '.env')
 
 # Handle 404
 def handle_404(req, resp):
     resp.status = falcon.HTTP_404
     # resp.body = 'Resource not found'
     resp.media = {
+        'status': falcon.HTTP_NOT_FOUND,
         'message': 'Resource not found',
-        'documentation_url': 'https://github.com/riipandi/falcon-foundation'
+        'documentation_url': 'https://github.com/riipandi/falcon-foundation',
     }
 
-api = falcon.API()
+# falcon.API instances are callable WSGI apps
+app = falcon.API(middleware=[Marshmallow()])
 
-api.add_route('/', StaticResource())
-# api.add_route('/', welcome.WelcomeResource())
-api.add_route('/whois/{domain}', whois.WhoisResource())
-api.add_sink(handle_404, '')
+# things will handle all requests to the '/things' URL path
+app.add_route('/', WelcomeResource())
+app.add_route('/user', UserResource())
+app.add_route('/static', StaticResource())
+
+app.add_sink(handle_404, '')
