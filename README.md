@@ -11,7 +11,7 @@ Falcon apps work with any WSGI server, and run like a champ under CPython 2.7, C
 Preparing workspace:
 
 ```
-virtualenv -qp python3 venv --download
+virtualenv -p python3 venv --download
 ```
 
 Or, if you want to use PyPy:
@@ -23,8 +23,12 @@ apt update && apt -y install pypy pypy3
 virtualenv -p pypy3 venv --download
 ```
 
-Installing dependencies:
+Activating virtualenv:
+```sh
+source venv/bin/activate
+```
 
+Installing dependencies:
 ```
 venv/bin/pip install -r requirements.txt
 ```
